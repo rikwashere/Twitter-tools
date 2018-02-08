@@ -1,7 +1,8 @@
 from collections import Counter
 from urlparse import urlparse
-import datetime
 import unicodecsv as csv
+import requests
+import datetime
 import json
 import sys
 import re
@@ -41,7 +42,12 @@ def extractUrls(fo):
 	for tweet in tweets:
 		if tweet.has_url == True:
 			for url in tweet.urls:
-				urls.append(urlparse(url).netloc)
+				netloc = urlparse(url).netloc
+				if netloc == ['bit.ly', 'owl.ly']:
+					# following shortend link
+					r = requests.get(url)
+					netloc = urlparse(r.url).netloc
+				urls.append(netloc)
 	print 'Processing %i tweets' % len(tweets)	
 	return tweets
 
