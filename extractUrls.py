@@ -28,7 +28,6 @@ class Tweet():
     def build_url(self):
     	return 'twitter.com/%s/status/%i' % (self.screen_name, self.id)
 
-
 def extractUrls(fo):
 	with open(fo, 'r') as fo:
 		data = [json.loads(line) for line in fo]
@@ -43,13 +42,18 @@ def extractUrls(fo):
 		if tweet.has_url == True:
 			for url in tweet.urls:
 				netloc = urlparse(url).netloc
-				if netloc == ['bit.ly', 'owl.ly']:
-					# following shortend link
-					r = requests.get(url)
-					netloc = urlparse(r.url).netloc
+
+				if netloc in ['bit.ly', 'owl.ly']:
+					try:
+						r = requests.get(url)
+						netloc = urlparse(r.url).netloc
+					except:
+						continue
+
 				urls.append(netloc)
 	print 'Processing %i tweets' % len(tweets)	
-	return tweets
+	
+	return urls
 
 def search(queries, tweets):
 	matches = []
