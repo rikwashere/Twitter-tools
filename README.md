@@ -8,4 +8,4 @@ Including:
 - User look up
 - Tweet look up
 - A domain name extractor
-- Update 27/9: Added a function searchTwitter in'search.py' that crawls historic search results for a target query
+- Update 27/9: Added a function searchTwitter in 'search.py' that crawls historic search results for a target query
